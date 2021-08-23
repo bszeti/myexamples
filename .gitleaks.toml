@@ -1,0 +1,3 @@
+[allowlist]
+  description = "allow keystores"
+  files = [ '''.*pem''', '''.*jks''', '''.*key''', '''.*crt''',  '''.*p12''',  '''.*srl''',  '''.*csr'']

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: httpd
-  label:
+  labels:
     app: httpd
 spec:
   containers:

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd
+  label:
+    app: httpd
+spec:
+  containers:
+  - name: main
+    image: registry.access.redhat.com/ubi8/httpd-24
+    ports:
+    - containerPort: 8080
+      name: http
+    - containerPort: 8443
+      name: https

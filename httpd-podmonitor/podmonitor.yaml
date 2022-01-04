@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: httpd
+  labels:
+    app: httpd
+spec:
+  selector:
+    matchLabels:
+      app: httpd
+  podMetricsEndpoints:
+  - port: http
+    interval: 10s

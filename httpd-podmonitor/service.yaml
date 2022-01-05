@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd
+  labels:
+    servicelabel: service-httpd
+spec:
+  selector:
+    app: httpd
+  ports:
+    - name: web
+      port: 80
+      targetPort: 8080
+    - name: webssl
+      port: 443
+      targetPort: 8443

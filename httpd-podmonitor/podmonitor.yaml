@@ -11,4 +11,4 @@ spec:
   podMetricsEndpoints:
   - port: http
     interval: 10s
-    path: /test
+    path: /podmonitor-http

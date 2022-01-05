@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: httpd
+spec:
+  endpoints:
+  - interval: 10s
+    # port name in Service (supports regexp)
+    port: webssl
+    # Can also use "targetPort" for ports defined on Pod
+    path: /servicemonitor-webssl
+    scheme: https
+    tlsConfig:
+      insecureSkipVerify: true
+  - interval: 10s
+    port: web
+    path: /servicemonitor-web
+    scheme: http
+  podTargetLabels:
+  - app
+  selector:
+    matchLabels:
+      servicelabel: service-httpd

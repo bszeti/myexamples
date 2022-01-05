@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-from-user-workload-monitoring
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: openshift-user-workload-monitoring
+  podSelector: {}
+  policyTypes:
+  - Ingress

@@ -1,0 +1,44 @@
+# PodMonitor and ServiceMonitor example for OpenShift User Workload Monitoring
+
+## PodMonitor
+
+To verify Prometheus scraping metrics we should have - one or more - Pods that log incoming requests (e.g. Apache Httpd) and a _PodMonitor_:
+
+```
+$ oc apply -f pod.yaml
+$ oc apply -f podmonitor.yaml
+```
+
+Alternatively Pods can be created by a _Deployment_ or _StatefulSet_ too.
+
+In the Pod log we should see lines like:
+
+```
+10.128.1.10 - - [05/Jan/2022:19:28:17 +0000] "GET /podmonitor-http HTTP/1.1" 404 196 "-" "Prometheus/2.29.2"
+```
+
+As we use an empty _httpd_ container, Prometheus gets an HTTP 404 and no metrics are collected, but it indicates that Prometheus is trying to collect the metrics.
+
+[NOTE]
+If we have any NetworkPolicy (see `oc get networkpolicy`) in our namespace, the connection from `openshift-user-workload-monitoring` namespace may be blocked. Apply `networkpolicy.yaml` to allow incoming requests from Prometheus.
+
+## ServiceMonitor
+
+We can also use a _ServiceMonitor_ instead of a _PodMonitor_ to configure the metrics collection.
+
+```
+$ oc apply -f pod.yaml
+$ oc apply -f service.yaml
+$ oc apply -f servicemonitor.yaml
+```
+
+Prometheus will scrape the Pods "behind" the _Service_ - including non-ready Pods.
+
+In the Pod log we should see lines like:
+
+```
+10.128.1.10 - - [05/Jan/2022:19:28:19 +0000] "GET /servicemonitor-web HTTP/1.1" 404 196 "-" "Prometheus/2.29.2"
+10.128.1.10 - - [05/Jan/2022:19:28:22 +0000] "GET /servicemonitor-webssl HTTP/1.1" 404 196 "-" "Prometheus/2.29.2"
+```
+
+For additional details see the Prometheus Operator's API: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md

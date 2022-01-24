@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: registry.access.redhat.com/ubi8/nginx-120:1-7
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: web
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 300m
+            memory: 1Gi
+          requests:
+            cpu: 20m
+            memory: 100Mi
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          failureThreshold: 3
+          initialDelaySeconds: 60
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          failureThreshold: 3
+          initialDelaySeconds: 5
+        volumeMounts:
+        - mountPath: /opt/app-root/src
+          name: data
+        - mountPath: /opt/app-root/etc/nginx.default.d
+          name: nginx-conf
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+      - name: data
+        persistentVolumeClaim:
+          claimName: jmeter-results
+        

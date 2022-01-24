@@ -17,6 +17,8 @@ spec:
       - name: nginx
         image: registry.access.redhat.com/ubi8/nginx-120:1-7
         imagePullPolicy: IfNotPresent
+        args:
+        - /usr/libexec/s2i/run
         ports:
         - containerPort: 8080
           name: web

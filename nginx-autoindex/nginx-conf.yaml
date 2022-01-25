@@ -6,4 +6,5 @@ data:
   location.conf: |-
     location / {
         autoindex on;
+        default_type    text/plain;
     }

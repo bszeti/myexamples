@@ -1,0 +1,8 @@
+{{- if .Values.plaintext }}
+encryptedValue: {{ encryptAES .Values.aeskey .Values.plaintext }}
+{{- end }}
+
+{{- if .Files.Get "files/plaintext" }}
+encryptedFile: {{ .Files.Get "files/plaintext" | encryptAES .Values.aeskey }}
+{{- end }}
+

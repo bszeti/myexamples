@@ -1,0 +1,8 @@
+{{- if .Values.encrypted }}
+decryptedValue: {{ .Values.encrypted | decryptAES .Values.aeskey }} 
+{{- end }}
+
+{{- with .Files.Get "files/encrypted" }}
+decryptedFile: |-
+{{- . | decryptAES $.Values.aeskey | nindent 2}}
+{{- end }}

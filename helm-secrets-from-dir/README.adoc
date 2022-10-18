@@ -1,0 +1,27 @@
+= Helm chart to create ConfigMaps/Secrets from a directory structure
+
+Render example: `helm template test .`
+
+See directory structure example under "tree" 
+```
+├── files
+│   ├── configmaps
+│   │   ├── cm-1
+│   │   │   ├── key1
+│   │   │   └── key2
+│   │   └── cm-2
+│   │       └── key3
+│   └── secrets
+│       ├── secret-1
+│       │   ├── entry-1
+│       │   └── entry-2
+│       └── secret-2
+│           ├── entry-3
+│           └── entry-4.aes
+```
+
+This will result in creating _ConfigMap_ `cm-1` and `cm-1` with entries created from files. Similarly _Secret_ `secret-1` and `secret-2` are created. Secrets also support file content encrypted with Helm's https://helm.sh/docs/chart_template_guide/function_list/#encryptaes[`encryptAES`] function (encryption key must be set as value _aeskey_) if the filename ends with `.aes`.
+
+[NOTE]
+If AES encryption is not needed we could use simply `( $.Files.Glob (print . "/*") ).AsSecrets` for 
+Secrets, similarly to ConfigMaps

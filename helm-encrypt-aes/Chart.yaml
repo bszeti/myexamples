@@ -1,0 +1,7 @@
+apiVersion: v2
+name: helm-encrypt-aes
+description: A Helm chart to encrypt values and files with "ecryptAES" function
+
+type: application
+version: 0.1.0
+appVersion: "0.0.1"

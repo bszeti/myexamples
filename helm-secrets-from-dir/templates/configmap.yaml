@@ -1,0 +1,16 @@
+{{- /* Find subdirectories "files/configmaps/*" */ -}}
+{{- $dirs := list }}
+{{- range $path, $_ :=  .Files.Glob  "files/configmaps/*/*" }}
+  {{- $dirs = append $dirs (dir $path) }}
+{{- end }}
+{{- $dirs =  ($dirs | uniq) }}
+
+{{- range $dirs }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ base . }}
+data:
+{{ ( $.Files.Glob (print . "/*") ).AsConfig | indent 2 }}
+---
+{{- end }}

@@ -1,0 +1,15 @@
+= Helm chart to encryptAES/decryptAES value or file
+
+Render example: `helm template test .`
+
+Encryption key must be set as value _aeskey_.
+
+Encrypting:
+
+- Value _plaintext_
+- File _files/plaintext_
+
+Decrypting:
+
+- Value _encrypted_
+- File _files/encrypted_

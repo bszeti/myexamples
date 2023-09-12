@@ -1,0 +1,51 @@
+
+If an application logs in multiple log files with different format sending all logs to stdout is not a great option. Using a sidecar that tails the file on its own stdout can help. See https://kubernetes.io/docs/concepts/cluster-administration/logging/#using-a-sidecar-container-with-the-logging-agent
+
+Try Pod:
+
+```
+oc create -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: main
+    args:
+    - /bin/sh
+    - -c
+    - |
+      for i in {1000..1009}; do
+      for j in {1000..1019}; do
+          echo "console - \$i.\$j"
+          # Log to file tailed by side container
+          echo "filelog - \$i.\$j" >>/shared/my.log
+          sleep 1
+      done
+      # Rotate log
+      mv -f /shared/my.log /shared/my.log.1
+      done
+    image: ubi9:latest
+    volumeMounts:
+    - mountPath: /shared
+      name: shared
+  - name: sidecar
+    args:
+    - /bin/sh
+    - "-c"
+    - tail -F -n +1 /shared/my.log
+    image: ubi9:latest
+    volumeMounts:
+    - mountPath: /shared
+      name: shared
+  volumes:
+  - name: shared
+    emptyDir:
+      sizeLimit: 500Mi
+  restartPolicy: Never
+EOF
+```
+
+[NOTE]
+Tail needs a couple of seconds to notice the log rotation, so if two rotations happens to quickly, it may miss a file. Usually this is not a problem.

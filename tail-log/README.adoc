@@ -34,7 +34,7 @@ spec:
     args:
     - /bin/sh
     - "-c"
-    - tail -F -n +1 /shared/my.log
+    - tail -F -n +1 /shared/my.log 2>/dev/nul
     image: ubi9:latest
     volumeMounts:
     - mountPath: /shared

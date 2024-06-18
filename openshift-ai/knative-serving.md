@@ -372,12 +372,8 @@ spec:
     knative: ingressgateway
   servers:
   - hosts:
-    - '*.apps.mycluster.example.com'
-    - '*.aiproject'
-    - '*.aiproject.svc'
     - '*.aiproject.svc.cluster.local'
-    # - test-http.aiproject
-    # - test-http.aiproject.svc
+    - '*.apps.mycluster.example.com'
     # - test-http.aiproject.svc.cluster.local
     # - test-http-aiproject.apps.mycluster.example.com
     port:
@@ -413,8 +409,6 @@ spec:
   gateways:
   - knative-serving/knative-http-gateway
   hosts:
-  - test-http.aiproject
-  - test-http.aiproject.svc
   - test-http.aiproject.svc.cluster.local
   - test-http-aiproject.apps.mycluster.example.com
   http:
@@ -427,6 +421,16 @@ spec:
         host: test-predictor.aiproject.svc.cluster.local
         port:
           number: 80
+```
+
+**_NOTE:_**  Use fully qualified hostnames only `*.svc.cluster.local` to avoid unexpected issues.
+
+Check that the new gateway rules are picked up:
+
+```
+$ istioctl proxy-config routes -n istio-system istio-ingressgateway-64694db8d5-zmcc
+NAME       VHOST NAME                                                    DOMAINS                                                                                                  MATCH  VIRTUAL SERVICE
+http.8080  test-http-single-model-serve.apps.mycluster.example.com:8080  test-http-single-model-serve.apps.mycluster.example.com, test-http.single-model-serve.svc.cluster.local  /*     test-http.single-model-serve
 ```
 
 From a Pod outside the mesh:

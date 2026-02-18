@@ -5,7 +5,7 @@ metadata:
 spec:
   tls:
     termination: edge
-    insecureEdgeTerminationPolicy: Redirect
+    insecureEdgeTerminationPolicy: Allow
   to:
     kind: Service
     name: nginx

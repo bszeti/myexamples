@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: registry.access.redhat.com/ubi8/nginx-120:1-7
+        image: registry.redhat.io/ubi9/nginx-124:9.7
         imagePullPolicy: IfNotPresent
         args:
         - /usr/libexec/s2i/run
@@ -51,5 +51,5 @@ spec:
           name: nginx-conf
       - name: data
         persistentVolumeClaim:
-          claimName: jmeter-results
+          claimName: nginx-data
         

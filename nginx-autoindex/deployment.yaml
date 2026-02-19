@@ -13,6 +13,8 @@ spec:
       labels:
         app: nginx
     spec:
+      strategy:
+        type: Recreate
       containers:
       - name: nginx
         image: registry.redhat.io/ubi9/nginx-124:9.7

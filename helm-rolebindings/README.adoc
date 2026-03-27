@@ -1,0 +1,3 @@
+= Helm chart to deploy RoleBindings
+
+Render example: `helm template test .`

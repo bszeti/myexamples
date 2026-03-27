@@ -1,0 +1,26 @@
+rolebindings:
+
+- groups: 
+  - group-1
+  - group-2
+  namespaces:
+  - fooproject
+  - barproject
+  clusterroles:
+  - system:aggregate-to-edit
+  - system:openshift:aggregate-to-edit
+  - project-helm-chartrepository-editor
+  roles:
+  - myrole
+  - myotherroles
+
+- groups:
+  - group-3
+  users:
+  - user-1
+  - user-2
+  namespaces:
+  - default
+  roles:
+  - myrole
+  

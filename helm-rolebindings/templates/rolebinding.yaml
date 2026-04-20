@@ -24,6 +24,11 @@ subjects:
     kind: User
     name: {{ . }}
   {{- end }}
+  {{- range $rolebinding.serviceAccounts }}
+  - kind: ServiceAccount
+    name: {{ .name }}
+    namespace: {{ .namespace }}
+  {{- end }}  
 {{- end }}
 
 {{- /*  ClusterRoles */ -}}
@@ -49,6 +54,11 @@ subjects:
     kind: User
     name: {{ . }}
   {{- end }}
+  {{- range $rolebinding.serviceAccounts }}
+  - kind: ServiceAccount
+    name: {{ .name }}
+    namespace: {{ .namespace }}
+  {{- end }}  
 {{- end }}
 
 {{- end }}

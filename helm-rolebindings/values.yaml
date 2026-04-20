@@ -19,6 +19,11 @@ rolebindings:
   users:
   - user-1
   - user-2
+  serviceAccounts:
+  - namespace: default
+    name: test
+  - namespace: myproject
+    name: mysa
   namespaces:
   - default
   roles:
